@@ -54,6 +54,41 @@ private:
 
 };
 
+class QuickSortAlgo : public SortAlgo
+{
+public:
+  void sort(std::vector<int>& input_list) 
+  {
+    quickSort(input_list, 0, input_list.size());    
+  }
+
+private:
+  void quickSort(std::vector<int>& vec, int left, int right)
+  {
+    int i = left, j = right;
+    int pivot = vec[(left + right) / 2];
+
+    /* partition */
+    while (i <= j) {
+      while (vec[i] < pivot)
+        i++;
+      while (vec[j] > pivot)
+        j--;
+      if (i <= j) {
+        std::swap(vec[i],vec[j]);
+        i++;
+        j--;
+      }
+    };
+  
+    /* recursion */
+    if (left < j)
+      quickSort(vec, left, j);
+    if (i < right)
+      quickSort(vec, i, right);
+  }
+};
+
 class HeapSortAlgo : public SortAlgo
 {
 public:
@@ -109,15 +144,16 @@ void sortFactoryMethod(
   {
     case(SortingMethod::BUBBLE):
       abstractSortMethod = std::make_unique<BubbleSortAlgo>();
-      abstractSortMethod->sort(input_list);
       break;
     case(SortingMethod::HEAP):
       abstractSortMethod = std::make_unique<HeapSortAlgo>();
-      abstractSortMethod->sort(input_list);
+      break;
+    case(SortingMethod::QUICK):
+      abstractSortMethod = std::make_unique<QuickSortAlgo>();
       break;
     default: throw ("Sorting algorithm not implemented");    
   }
-    
+  abstractSortMethod->sort(input_list);
 }
 
 void print_list(const std::vector<int>& list)
@@ -130,14 +166,20 @@ int main()
 {  
   std::vector<int> input_list = {4,5,1,643,23,123,542,5243};
     
-  std::cout << "BUBBLE" << std::endl;http://cpp.sh/#
+  std::cout << "BUBBLE SORT" << std::endl;
   print_list(input_list);
   sortFactoryMethod(SortingMethod::BUBBLE, input_list);
   print_list(input_list);
 
-  std::cout << "\nHEAP" << std::endl;
+  std::cout << "\nHEAP SORT" << std::endl;
   input_list = {213,5342,12,22,1,4,451,29};
   print_list(input_list);
   sortFactoryMethod(SortingMethod::HEAP, input_list);
+  print_list(input_list);
+
+  std::cout << "\nQUICK SORT" << std::endl;
+  input_list = {123,12,21,5,2,1,9};
+  print_list(input_list);
+  sortFactoryMethod(SortingMethod::QUICK, input_list);
   print_list(input_list);
 }

@@ -15,13 +15,11 @@ int main()
 {
     vector<S> sList (3);
     
-    cout << "=== Before const auto For Loop ===" << std::endl;
+    cout << "\n=== Copy Constructor  ===" << std::endl;
     for (const auto s : sList) { }
     
-    cout << "=== Between For Loops ===" << std::endl;
-    
+    cout << "\n=== Move Constructor ===" << std::endl;
     for (const auto& s : sList) { }
-    cout << "=== After const auto& For Loops ===" << std::endl;    
     
     return 0;
 }
